@@ -2,7 +2,7 @@ import os
 import time
 import requests
 import pandas as pd
-import talib
+import pandas_ta as ta  # FIXED: Correct import for pandas_ta
 from telegram import Bot
 from telegram.error import TelegramError
 
@@ -40,7 +40,8 @@ def check_rsi_signal(df):
     if df is None or len(df) < 15:
         return None, "Not enough data"
 
-    rsi = talib.RSI(df['close'], timeperiod=14)
+    # Calculate RSI USING pandas_ta - FIXED: uses .rsi()
+    rsi = ta.rsi(df['close'], length=14)  # CORRECT LINE
     current_rsi = rsi.iloc[-1]
     signal = None
     message = ""
